@@ -77,10 +77,20 @@ static  vexMotorCfg mConfig[kVexMotorNum] = {
 
 
 // Defining Motor and Switch Names for easier referal
+
+// Toggle Arm Motors
 #define ArmMotor kVexMotor_5
 #define BumperSwitch kVexDigital_5
 #define LimetSwitch kVexDigital_6
 
+// Drive Motors
+#define BottomMotor kVexMotor_9
+#define TopMotor kVexMotor_8
+#define LeftMotor kVexMotor_7
+#define RightMotor kVexMotor_6
+
+// BigArm Motor
+#define BigArmMotor kVexMotor_4
 // Globle Variable defining
 int ArmPos = 1;
 
@@ -113,6 +123,18 @@ void toggleArm()
 }
 
 
+void UserDriveForward() 
+{
+     vexMotorSet(RightMotor, -vexControllerGet(Ch3));
+     vexMotorSet(LeftMotor, vexControllerGet(Ch3));
+}
+
+void UserTurningWheels()
+{
+    vexMotorSet(TopMotor, (vexControllerGet(Ch4) + vexControllerGet(Ch1)));
+    vexMotorSet(BottomMotor, (vexControllerGet(Ch4) - vexControllerGet(Ch1))); 
+}
+   
 
 
 /*-----------------------------------------------------------------------------*/
@@ -193,11 +215,15 @@ vexOperator( void *arg )
 	// Run until asked to terminate
 	while(!chThdShouldTerminate())
 		{
-		
+		UserDriveForward();
+        UserTurningWheels();
+
             if(vexControllerGet(Btn6D) == 1)
             {
                 toggleArm();
             }
+
+
 		// Don't hog cpu
 		vexSleep( 25 );
 		}

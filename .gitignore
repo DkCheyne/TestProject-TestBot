@@ -3,6 +3,10 @@
 *.ko
 *.obj
 *.elf
+*.h
+*.o.d
+*.lst
+
 
 # Precompiled Headers
 *.gch
